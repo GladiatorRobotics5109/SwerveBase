@@ -44,10 +44,10 @@ public final class Constants {
     public static final Translation2d kModulePosBackRight = new Translation2d(-0.2921, -0.2921);
     
     //TODO - Need to measure offsets for SRX mag encoders 
-    public static final double kModuleEncoderOffsetFrontLeft = 0.0;
-    public static final double kModuleEncoderOffsetFrontRight = 0.0;
-    public static final double kModuleEncoderOffsetBackLeft = 0.0;
-    public static final double kModuleEncoderOffsetBackRight = 0.0;
+    public static final double kModuleEncoderOffsetFrontLeft = 0.0; // 0.445 rotations
+    public static final double kModuleEncoderOffsetFrontRight = 0.0; // 0.061 rotations
+    public static final double kModuleEncoderOffsetBackLeft = 0.0; // 0.721 rotations
+    public static final double kModuleEncoderOffsetBackRight = 0.0; // 0.825 rotations
     
     public static final AHRS kNavX = new AHRS(SPI.Port.kMXP);
     
