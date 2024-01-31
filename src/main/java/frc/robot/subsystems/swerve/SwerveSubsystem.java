@@ -47,11 +47,40 @@ public class SwerveSubsystem extends SubsystemBase {
     private final AHRS m_navX;
     
     public SwerveSubsystem() {
+        
         // TODO: select right CAN ids for motors
-        m_moduleFL = new SwerveModuleNeoTurnNeoDrive(Constants.SwerveConstants.kModulePosFrontLeft, "frontLeft", 0, 15, 14);
-        m_moduleFR = new SwerveModuleNeoTurnNeoDrive(Constants.SwerveConstants.kModulePosFrontRight, "frontRight", 1, 12, 13);;
-        m_moduleBL = new SwerveModuleNeoTurnNeoDrive(Constants.SwerveConstants.kModulePosBackLeft, "backLeft", 2, 18, 19);;
-        m_moduleBR = new SwerveModuleNeoTurnNeoDrive(Constants.SwerveConstants.kModulePosBackRight, "backRight", 3, 16, 17);;
+        m_moduleFL = new SwerveModuleNeoTurnNeoDrive(
+            Constants.SwerveConstants.kModulePosFrontLeft, 
+            "frontLeft", 
+            0, 
+            15, 
+            14, 
+            Constants.SwerveConstants.kModuleEncoderOffsetFrontLeft
+        );
+        m_moduleFR = new SwerveModuleNeoTurnNeoDrive(
+            Constants.SwerveConstants.kModulePosFrontRight, 
+            "frontRight", 
+            1, 
+            12, 
+            13, 
+            Constants.SwerveConstants.kModuleEncoderOffsetFrontLeft
+        );
+        m_moduleBL = new SwerveModuleNeoTurnNeoDrive(
+            Constants.SwerveConstants.kModulePosBackLeft, 
+            "backLeft", 
+            2, 
+            18, 
+            19, 
+            Constants.SwerveConstants.kModuleEncoderOffsetFrontLeft
+        );
+        m_moduleBR = new SwerveModuleNeoTurnNeoDrive(
+            Constants.SwerveConstants.kModulePosBackRight, 
+            "backRight", 
+            3, 
+            16, 
+            17, 
+            Constants.SwerveConstants.kModuleEncoderOffsetFrontLeft
+        );
     
         m_navX = SwerveConstants.kNavX;
         //m_navX.reset(); <-- Test this?????

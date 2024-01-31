@@ -1,11 +1,13 @@
 package frc.robot.subsystems.swerve;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController.AccelStrategy;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -27,12 +29,13 @@ public class SwerveModuleNeoTurnNeoDrive {
     private final CANSparkMax m_turnMotor;
 
     private final RelativeEncoder m_driveEncoder;
+    private final AbsoluteEncoder m_turnAbsEncoder;
     private final RelativeEncoder m_turnEncoder;
 
     private final SparkPIDController m_drivePIDController;
     private final SparkPIDController m_turnPIDController;
 
-    public SwerveModuleNeoTurnNeoDrive(Translation2d modulePos, String moduleName, int moduleNum, int driveMotorPort, int turnMotorPort) {
+    public SwerveModuleNeoTurnNeoDrive(Translation2d modulePos, String moduleName, int moduleNum, int driveMotorPort, int turnMotorPort, double absEncoderOffset) {
         m_modulePos = modulePos;
         m_moduleName = moduleName;
         m_moduleNum = moduleNum;
@@ -44,6 +47,7 @@ public class SwerveModuleNeoTurnNeoDrive {
         m_turnMotor.setIdleMode(IdleMode.kCoast);
 
         m_driveEncoder = m_driveMotor.getEncoder();
+        m_turnAbsEncoder = m_turnMotor.getAbsoluteEncoder(Type.kDutyCycle);
         m_turnEncoder = m_turnMotor.getEncoder();
 
         m_drivePIDController = m_driveMotor.getPIDController();
@@ -68,6 +72,8 @@ public class SwerveModuleNeoTurnNeoDrive {
         m_turnEncoder.setPositionConversionFactor(Constants.ModuleConstants.kTurnPositionConversionFactor);
         m_turnEncoder.setVelocityConversionFactor(Constants.ModuleConstants.kTurnVelocityConversionFactor);
 
+        m_turnAbsEncoder.setZeroOffset(absEncoderOffset);
+
         m_turnPIDController.setOutputRange(-1, 1);
     }
 
@@ -80,7 +86,7 @@ public class SwerveModuleNeoTurnNeoDrive {
 
     
     public void setDesiredState(SwerveModuleState state, boolean optimize) {
-        SwerveModuleState optimizedState = optimize ? RevOptimizer.optimize(state, new Rotation2d(m_turnEncoder.getPosition())) : state;
+        SwerveModuleState optimizedState = optimize ? RevOptimizer.optimize(state, new Rotation2d(m_turnAbsEncoder.getPosition())) : state;
         
         m_drivePIDController.setReference(optimizedState.speedMetersPerSecond, ControlType.kVelocity);
         m_turnPIDController.setReference(optimizedState.angle.getRadians(), ControlType.kPosition);
@@ -121,12 +127,12 @@ public class SwerveModuleNeoTurnNeoDrive {
 
     
     public SwerveModuleState getState() {
-        return new SwerveModuleState(m_driveEncoder.getVelocity(), Rotation2d.fromRadians(m_turnEncoder.getPosition()));
+        return new SwerveModuleState(m_driveEncoder.getVelocity(), Rotation2d.fromRadians(m_turnAbsEncoder.getPosition()));
     }
 
     
     public SwerveModulePosition getModulePosition() {
-        return new SwerveModulePosition(m_driveEncoder.getPosition(), Rotation2d.fromRadians(m_turnEncoder.getPosition()));
+        return new SwerveModulePosition(m_driveEncoder.getPosition(), Rotation2d.fromRadians(m_turnAbsEncoder.getPosition()));
     }
 
     public double getDrivePosition() {
@@ -134,7 +140,7 @@ public class SwerveModuleNeoTurnNeoDrive {
     }
 
     public double getTurnPosition() {
-        return m_turnEncoder.getPosition();
+        return m_turnAbsEncoder.getPosition();
     }
 
     public double getDriveVelocity() {
