@@ -43,11 +43,10 @@ public final class Constants {
     public static final Translation2d kModulePosBackLeft = new Translation2d(-0.2921, 0.2921);
     public static final Translation2d kModulePosBackRight = new Translation2d(-0.2921, -0.2921);
     
-    //TODO - Need to measure offsets for SRX mag encoders 
-    public static final double kModuleEncoderOffsetFrontLeft = 0.0; // 0.445 rotations
-    public static final double kModuleEncoderOffsetFrontRight = 0.0; // 0.061 rotations
-    public static final double kModuleEncoderOffsetBackLeft = 0.0; // 0.721 rotations
-    public static final double kModuleEncoderOffsetBackRight = 0.0; // 0.825 rotations
+    public static final double kModuleEncoderOffsetFrontLeft = 2.736; // 0.445 rotations
+    public static final double kModuleEncoderOffsetFrontRight = 0.319; // 0.061 rotations
+    public static final double kModuleEncoderOffsetBackLeft = 4.564; // 0.721 rotations
+    public static final double kModuleEncoderOffsetBackRight = 5.188; // 0.825 rotations
     
     public static final AHRS kNavX = new AHRS(SPI.Port.kMXP);
     
@@ -92,6 +91,8 @@ public final class Constants {
   
     public static final double kTurnPositionConversionFactor = (2 * Math.PI) / kSwerveTurnGearRatio; // rotations -> radians (1 motor turn x 2pi / 12.8 motor turns)
     public static final double kTurnVelocityConversionFactor = kTurnPositionConversionFactor / 60.0; // rpm -> rad/s
+
+    public static final double kModuleTurnPositionConversionFactor = (2 * Math.PI);
     
     public static final double kDriveP = 0.3;
     public static final double kDriveI = 0;

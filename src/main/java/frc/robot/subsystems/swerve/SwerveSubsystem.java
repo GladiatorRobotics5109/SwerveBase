@@ -63,7 +63,7 @@ public class SwerveSubsystem extends SubsystemBase {
             1, 
             12, 
             13, 
-            Constants.SwerveConstants.kModuleEncoderOffsetFrontLeft
+            Constants.SwerveConstants.kModuleEncoderOffsetFrontRight
         );
         m_moduleBL = new SwerveModuleNeoTurnNeoDrive(
             Constants.SwerveConstants.kModulePosBackLeft, 
@@ -71,7 +71,7 @@ public class SwerveSubsystem extends SubsystemBase {
             2, 
             18, 
             19, 
-            Constants.SwerveConstants.kModuleEncoderOffsetFrontLeft
+            Constants.SwerveConstants.kModuleEncoderOffsetBackLeft
         );
         m_moduleBR = new SwerveModuleNeoTurnNeoDrive(
             Constants.SwerveConstants.kModulePosBackRight, 
@@ -79,7 +79,7 @@ public class SwerveSubsystem extends SubsystemBase {
             3, 
             16, 
             17, 
-            Constants.SwerveConstants.kModuleEncoderOffsetFrontLeft
+            Constants.SwerveConstants.kModuleEncoderOffsetBackRight
         );
     
         m_navX = SwerveConstants.kNavX;
