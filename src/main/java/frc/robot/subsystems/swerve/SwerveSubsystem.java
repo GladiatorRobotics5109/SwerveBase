@@ -291,8 +291,18 @@ public class SwerveSubsystem extends SubsystemBase {
         return m_poseEstimator.getEstimatedPosition();
     }
 
+    private void updateModuleAngles() {
+        m_moduleFL.updateModuleAngle();
+        m_moduleFR.updateModuleAngle();
+        m_moduleBL.updateModuleAngle();
+        m_moduleBR.updateModuleAngle();
+    }
+
     @Override
     public void periodic() {
+
+        updateModuleAngles();
+
         SmartDashboard.putNumber("vx", getSpeeds().vxMetersPerSecond);
         SmartDashboard.putNumber("vy", getSpeeds().vyMetersPerSecond);
         SmartDashboard.putNumber("rot", getSpeeds().omegaRadiansPerSecond);

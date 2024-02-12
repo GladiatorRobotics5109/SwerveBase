@@ -30,7 +30,7 @@ public class SwerveModuleNeoTurnNeoDrive {
 
     private final RelativeEncoder m_driveEncoder;
     private final AbsoluteEncoder m_turnAbsEncoder;
-    //private final RelativeEncoder m_turnEncoder;
+    private final RelativeEncoder m_turnEncoder;
 
     private final SparkPIDController m_drivePIDController;
     private final SparkPIDController m_turnPIDController;
@@ -48,12 +48,12 @@ public class SwerveModuleNeoTurnNeoDrive {
 
         m_driveEncoder = m_driveMotor.getEncoder();
         m_turnAbsEncoder = m_turnMotor.getAbsoluteEncoder(Type.kDutyCycle);
-        //m_turnEncoder = m_turnMotor.getEncoder();
+        m_turnEncoder = m_turnMotor.getEncoder();
 
         m_drivePIDController = m_driveMotor.getPIDController();
         m_turnPIDController = m_turnMotor.getPIDController();
 
-        m_turnPIDController.setFeedbackDevice(m_turnAbsEncoder);
+        //m_turnPIDController.setFeedbackDevice(m_turnAbsEncoder);
 
         m_drivePIDController.setP(Constants.ModuleConstants.kDriveP);
         m_drivePIDController.setI(Constants.ModuleConstants.kDriveI);
@@ -72,15 +72,15 @@ public class SwerveModuleNeoTurnNeoDrive {
         m_driveEncoder.setPositionConversionFactor(Constants.ModuleConstants.kDrivePositionConversionFactor);
         
         m_turnAbsEncoder.setPositionConversionFactor(Constants.ModuleConstants.kModuleTurnPositionConversionFactor);
-        //m_turnEncoder.setPositionConversionFactor(Constants.ModuleConstants.kTurnPositionConversionFactor);
-        //m_turnEncoder.setVelocityConversionFactor(Constants.ModuleConstants.kTurnVelocityConversionFactor);
+        m_turnEncoder.setPositionConversionFactor(Constants.ModuleConstants.kTurnPositionConversionFactor);
+        m_turnEncoder.setVelocityConversionFactor(Constants.ModuleConstants.kTurnVelocityConversionFactor);
 
         
         m_turnAbsEncoder.setZeroOffset(absEncoderOffset);
 
+        m_turnEncoder.setPosition(m_turnAbsEncoder.getPosition());
+
         m_turnPIDController.setOutputRange(-1, 1);
-
-
     }
 
 
@@ -130,6 +130,12 @@ public class SwerveModuleNeoTurnNeoDrive {
         m_driveEncoder.setPosition(0.0);
         //m_turnEncoder.setPosition(0.0);ds3
     }
+
+    public void updateModuleAngle() {
+        m_turnEncoder.setPosition(m_turnAbsEncoder.getPosition());
+    }
+
+
 
     
     public SwerveModuleState getState() {
